@@ -43,10 +43,22 @@ export default {
 		const apiReq = useApiRequest({ baseURL: '/' });
 		const params = reactive({ from: null, to: null });
 		let date = new Date();
+		date.setHours(date.getHours() - 21);
 		let convert = d => d.toJSON().replace(/T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/, 'T00:00:00Z');
 		params.to = convert(date);
-		date.setDate(date.getDate() - 8);
+		date.setDate(date.getDate() - 7);
 		params.from = convert(date);
+
+		// ?#temp test api for netlify		
+		const http = useApiRequest();
+		http.get('/getuser', { params: { from: params.from, to: params.to }})
+			.then(res => {
+				console.log('netlify', res);
+			})
+			.catch(err => {
+				console.log('netlify', err);
+			});
+
 
 		apiReq.get('https://api.covid19api.com/country/korea-south/status/confirmed', { params })
 			.then(({ data }) => {
