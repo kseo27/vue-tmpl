@@ -49,17 +49,6 @@ export default {
 		date.setDate(date.getDate() - 7);
 		params.from = convert(date);
 
-		// ?#temp test api for netlify		
-		const http = useApiRequest();
-		http.get('/getuser', { params: { from: params.from, to: params.to }})
-			.then(res => {
-				console.log('netlify', res);
-			})
-			.catch(err => {
-				console.log('netlify', err);
-			});
-
-
 		apiReq.get('https://api.covid19api.com/country/korea-south/status/confirmed', { params })
 			.then(({ data }) => {
 				let cases = [], newCases = [];
